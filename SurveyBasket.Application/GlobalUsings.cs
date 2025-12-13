@@ -16,3 +16,5 @@ global using SurveyBasket.Entities;
 global using SurveyBasket.Infrastructure;
 global using SurveyBasket.Application.Abstractions.DTOs.Votes.Request;
 global using SurveyBasket.Application.Abstractions.Repositories.Vote;
+global using SurveyBasket.Application.Abstractions.DTOs.Results.Response;
+global using SurveyBasket.Application.Abstractions.Repositories.Result;
