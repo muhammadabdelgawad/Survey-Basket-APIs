@@ -28,15 +28,15 @@ namespace SurveyBasket.Application.Services
 
             return Result.Success<IEnumerable<QuestionResponse>>(questions);
         }
-       
+
         public async Task<Result<IEnumerable<QuestionResponse>>> GetAvailableAsync(int pollId, string userId, CancellationToken cancellationToken = default)
         {
-            var isVoted = await _dbContext.Votes.AnyAsync(v => v.PollId == pollId && v.UserId == userId ,cancellationToken);
+            var isVoted = await _dbContext.Votes.AnyAsync(v => v.PollId == pollId && v.UserId == userId, cancellationToken);
             if (isVoted)
                 return Result.Failure<IEnumerable<QuestionResponse>>(VoteErrors.DuplicatedVote);
 
             var pollExists = await _dbContext.Polls.AnyAsync(p => p.Id == pollId && p.IsPublished && p.StartsAt <= DateOnly.FromDateTime(DateTime.UtcNow) && p.EndsAt >= DateOnly.FromDateTime(DateTime.UtcNow));
-          
+
             if (!pollExists)
                 return Result.Failure<IEnumerable<QuestionResponse>>(PollErrors.PollNotFound);
 

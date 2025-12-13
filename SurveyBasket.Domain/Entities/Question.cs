@@ -13,5 +13,6 @@ namespace SurveyBasket.Domain.Entities
 
         public ICollection<Answer> Answers { get; set; } = [];
 
+        public ICollection<VoteAnswer> Votes { get; set; } = [];
     }
 }

@@ -7,9 +7,9 @@
 
         Task<Result<PollResponse>> GetAsync(int id, CancellationToken cancellationToken = default);
         Task<Result<PollResponse>> AddAsync(PollRequest request, CancellationToken cancellationToken = default);
-        Task<Result> UpdateAsync(int id, PollRequest poll, CancellationToken cancellationToken = default);
-        Task<Result> DeleteAsync(int id, CancellationToken cancellationToken = default);
-        Task<Result> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default);
+        Task<Abstractions.Result> UpdateAsync(int id, PollRequest poll, CancellationToken cancellationToken = default);
+        Task<Abstractions.Result> DeleteAsync(int id, CancellationToken cancellationToken = default);
+        Task<Abstractions.Result> TogglePublishStatusAsync(int id, CancellationToken cancellationToken = default);
 
 
     }

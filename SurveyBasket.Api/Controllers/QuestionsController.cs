@@ -41,8 +41,8 @@ namespace SurveyBasket.Api.Controllers
         {
             var result = await _questionService.UpdateAsync(pollId, id, request, cancellationToken);
 
-            return result.IsSuccess ? NoContent() : result.ToProblem(); 
-               
+            return result.IsSuccess ? NoContent() : result.ToProblem();
+
         }
 
         [HttpPut("{id}/toggleStatus")]

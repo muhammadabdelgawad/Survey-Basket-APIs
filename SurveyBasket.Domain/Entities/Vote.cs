@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public int PollId { get; set; }
         public string UserId { get; set; } = string.Empty;
-        public DateTime  SubmittedOn { get; set; } = DateTime.UtcNow;
+        public DateTime SubmittedOn { get; set; } = DateTime.UtcNow;
 
         public Poll Poll { get; set; } = default!;
         public ApplicationUser User { get; set; } = default!;

@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.Repositories.Vote;
-
+﻿using SurveyBasket.Application.Abstractions.Repositories.Result;
 namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
@@ -28,7 +27,8 @@ namespace SurveyBasket.DependencyInjection
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPollService, PollService>();
             services.AddScoped<IQuestionService, QuestionService>();
-            services.AddScoped<IVoteService,VoteService>();
+            services.AddScoped<IVoteService, VoteService>();
+            services.AddScoped<IResultService, ResultService>();
 
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();

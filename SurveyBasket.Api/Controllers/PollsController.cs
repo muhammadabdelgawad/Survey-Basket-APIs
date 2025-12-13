@@ -27,7 +27,7 @@
         {
             var result = await _pollService.GetAsync(id, cancellationToken);
 
-            return result.IsSuccess? Ok(result.Value): result.ToProblem();
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
 
         [HttpPost("")]
@@ -53,7 +53,7 @@
         {
             var result = await _pollService.DeleteAsync(id, cancellationToken);
 
-            return result.IsSuccess ? NoContent(): result.ToProblem();
+            return result.IsSuccess ? NoContent() : result.ToProblem();
         }
 
         [HttpPut("{id}/togglePublish")]
@@ -61,7 +61,7 @@
         {
             var result = await _pollService.TogglePublishStatusAsync(id, cancellationToken);
 
-            return result.IsSuccess? NoContent(): result.ToProblem();
+            return result.IsSuccess ? NoContent() : result.ToProblem();
         }
 
 

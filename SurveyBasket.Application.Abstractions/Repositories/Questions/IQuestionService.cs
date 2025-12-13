@@ -1,4 +1,7 @@
-﻿
+﻿using SurveyBasket.Application.Abstractions.DTOs.Questions.Requests;
+using SurveyBasket.Application.Abstractions.DTOs.Questions.Responses;
+using SurveyBasket.Application.Abstractions.Abstractions;
+
 namespace SurveyBasket.Application.Abstractions.Repositories.Questions
 {
     public interface IQuestionService
@@ -9,8 +12,8 @@ namespace SurveyBasket.Application.Abstractions.Repositories.Questions
 
         Task<Result<QuestionResponse>> AddAsync(int pollId, QuestionRequest request, CancellationToken cancellationToken = default);
 
-        Task<Result> UpdateAsync(int pollId, int id, QuestionRequest request, CancellationToken cancellationToken = default);
+        Task<Abstractions.Result> UpdateAsync(int pollId, int id, QuestionRequest request, CancellationToken cancellationToken = default);
 
-        Task<Result> ToggleStatusAsync(int pollId, int id, CancellationToken cancellationToken = default);
+        Task<Abstractions.Result> ToggleStatusAsync(int pollId, int id, CancellationToken cancellationToken = default);
     }
 }

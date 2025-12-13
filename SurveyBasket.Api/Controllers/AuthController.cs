@@ -12,7 +12,7 @@
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
-            return authResult.IsSuccess? Ok(authResult.Value) : authResult.ToProblem();
+            return authResult.IsSuccess ? Ok(authResult.Value) : authResult.ToProblem();
         }
 
 
