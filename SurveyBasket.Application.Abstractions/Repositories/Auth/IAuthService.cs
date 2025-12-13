@@ -7,7 +7,7 @@ namespace SurveyBasket.Application.Abstractions.Repositories.Auth
             CancellationToken cancellationToken = default);
         Task<Result<AuthResponse>> GetRefreshTokenAsync(string token, string refreshToken,
           CancellationToken cancellationToken = default);
-        Task<Result> RevokeRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default);
+        Task<Abstractions.Result> RevokeRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default);
 
     }
 }
