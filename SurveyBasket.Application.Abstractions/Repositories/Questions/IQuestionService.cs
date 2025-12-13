@@ -1,4 +1,7 @@
 ﻿
+using SurveyBasket.Application.Abstractions.DTOs.Questions.Requests;
+using SurveyBasket.Application.Abstractions.DTOs.Questions.Responses;
+
 namespace SurveyBasket.Application.Abstractions.Repositories.Questions
 {
     public interface IQuestionService
