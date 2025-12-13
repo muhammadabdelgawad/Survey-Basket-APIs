@@ -1,6 +1,6 @@
 ﻿namespace SurveyBasket.Application.Validations.Vote
 {
-    public class VoteAnswerRequestValidator :AbstractValidator<VoteAnswerRequest>
+    public class VoteAnswerRequestValidator : AbstractValidator<VoteAnswerRequest>
     {
         public VoteAnswerRequestValidator()
         {

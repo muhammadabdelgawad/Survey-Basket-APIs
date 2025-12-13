@@ -5,5 +5,5 @@
         string Title,
         IEnumerable<VoteResponse> Votes
     );
-    
+
 }

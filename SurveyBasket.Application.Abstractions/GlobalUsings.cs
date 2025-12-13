@@ -6,6 +6,3 @@ global using SurveyBasket.Application.Abstractions.Abstractions;
 global using SurveyBasket.Application.Abstractions.DTOs.Answers;
 global using SurveyBasket.Application.Abstractions.DTOs.Polls.Requests;
 global using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
-global using SurveyBasket.Entities;
-global using SurveyBasket.Application.Abstractions.DTOs.Questions.Requests;
-global using SurveyBasket.Application.Abstractions.DTOs.Questions.Responses;

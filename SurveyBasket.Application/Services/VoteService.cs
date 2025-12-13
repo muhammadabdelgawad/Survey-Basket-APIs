@@ -16,11 +16,11 @@
                 return Result.Failure(PollErrors.PollNotFound);
 
             var availableQuestions = await _dbContext.Questions
-                .Where(q=>q.PollId == pollId && q.IsActive)
-                .Select(q=>q.Id)
+                .Where(q => q.PollId == pollId && q.IsActive)
+                .Select(q => q.Id)
                 .ToListAsync(cancellationToken);
 
-            if(!request.Answers.Select(x=>x.QuestionId).SequenceEqual(availableQuestions))
+            if (!request.Answers.Select(x => x.QuestionId).SequenceEqual(availableQuestions))
                 return Result.Failure(VoteErrors.InvalidQuestions);
 
             var vote = new Vote

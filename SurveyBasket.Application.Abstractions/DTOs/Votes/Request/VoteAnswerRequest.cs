@@ -5,5 +5,5 @@
         int QuestionId,
         int AnswerId
     );
-   
+
 }
