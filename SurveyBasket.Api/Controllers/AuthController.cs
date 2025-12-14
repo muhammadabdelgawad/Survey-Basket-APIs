@@ -7,7 +7,7 @@
         private readonly IAuthService _authService = authService;
         private readonly JwtOptions _jwtOptions = jwtOptions.Value;
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
@@ -21,8 +21,7 @@
         {
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-            return authResult.IsSuccess
-                ? Ok(authResult.Value) : authResult.ToProblem();
+            return authResult.IsSuccess ? Ok(authResult.Value) : authResult.ToProblem();
         }
 
 
