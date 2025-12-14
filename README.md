@@ -1,201 +1,257 @@
-# Survey-Basket
+# 📊 SurveyBasket API
 
-## Description
+A modern, scalable RESTful API for creating and managing surveys/polls built with **ASP.NET Core 9** following Clean Architecture principles.
 
-This project provides an API for managing polls and user authentication. It allows users to create, read, update, and delete polls, as well as manage user authentication using JWT tokens and refresh tokens.
+![.NET](https://img.shields.io/badge/.NET-9.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-13.0-239120?style=for-the-badge&logo=csharp&logoColor=white)
+![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
-## Features and Functionality
+## 📋 Table of Contents
 
-*   **User Authentication:**
-    *   Login with email and password to obtain a JWT token and refresh token.
-    *   Refresh JWT tokens using refresh tokens.
-    *   Revoke refresh tokens.
-    *   Secure API endpoints using JWT authentication.
+- [Features](#-features)
+- [Architecture](#-architecture)
+- [Technologies](#-technologies)
+- [Getting Started](#-getting-started)
+- [API Endpoints](#-api-endpoints)
+- [Project Structure](#-project-structure)
+- [Configuration](#-configuration)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-*   **Poll Management:**
-    *   Create new polls with a title, summary, start date, and end date.
-    *   Retrieve all polls.
-    *   Retrieve a specific poll by ID.
-    *   Update existing polls.
-    *   Delete polls.
-    *   Toggle the publish status of a poll.
+## ✨ Features
 
-## Technology Stack
+- **Poll Management** - Create, update, delete, and publish polls with customizable start/end dates
+- **Question & Answer System** - Add multiple questions with various answer options to polls
+- **Voting System** - Users can vote on active polls with validation to prevent duplicate votes
+- **Results & Analytics** - View poll results with detailed analytics including:
+  - Raw voting data
+  - Votes per day
+  - Votes per question breakdown
+- **Authentication & Authorization** - Secure JWT-based authentication with refresh token support
+- **Token Management** - Refresh and revoke tokens for enhanced security
+- **Input Validation** - Comprehensive request validation using FluentValidation
+- **API Documentation** - Interactive Swagger/OpenAPI documentation
+- **Structured Logging** - Serilog integration for comprehensive logging
 
-*   .NET 9.0
-*   ASP.NET Core API
-*   Entity Framework Core (for database interaction)
-*   SQL Server (as the database)
-*   JWT (JSON Web Tokens) for authentication
-*   Mapster (for object mapping)
-*   FluentValidation (for request validation)
-*   Microsoft Identity (for user management)
+## 🏗 Architecture
 
-## Prerequisites
+This project follows **Clean Architecture** principles with clear separation of concerns:
 
-*   .NET 9.0 SDK installed.
-*   SQL Server instance.
-*   An IDE like Visual Studio or Visual Studio Code.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      Presentation Layer                      │
+│                     (SurveyBasket.Api)                       │
+│              Controllers, Authentication, DI                 │
+├─────────────────────────────────────────────────────────────┤
+│                      Application Layer                       │
+│                  (SurveyBasket.Application)                  │
+│           Services, Mapping, Validations                     │
+├─────────────────────────────────────────────────────────────┤
+│                    Abstractions Layer                        │
+│            (SurveyBasket.Application.Abstractions)           │
+│          Interfaces, DTOs, Contracts                         │
+├─────────────────────────────────────────────────────────────┤
+│                      Domain Layer                            │
+│                   (SurveyBasket.Domain)                      │
+│                Entities, Core Business Logic                 │
+├─────────────────────────────────────────────────────────────┤
+│                   Infrastructure Layer                       │
+│                (SurveyBasket.Infrastructure)                 │
+│         DbContext, Migrations, Configurations                │
+└─────────────────────────────────────────────────────────────┘
+```
 
-## Installation Instructions
+## 🛠 Technologies
 
-1.  Clone the repository:
+| Category | Technology |
+|----------|------------|
+| Framework | ASP.NET Core 9 |
+| Language | C# 13 |
+| ORM | Entity Framework Core 9 |
+| Database | SQL Server |
+| Authentication | JWT Bearer Tokens |
+| Validation | FluentValidation |
+| Logging | Serilog |
+| Documentation | Swagger / OpenAPI |
 
-    ```bash
-    git clone https://github.com/muhammadabdelgawad/Survey-Basket.git
-    ```
+## 🚀 Getting Started
 
-2.  Navigate to the `SurveyBasket.Api` directory:
+### Prerequisites
 
-    ```bash
-    cd SurveyBasket.Api
-    ```
+- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) (LocalDB or full instance)
+- [Visual Studio 2022](https://visualstudio.microsoft.com/) or [VS Code](https://code.visualstudio.com/)
 
-3.  Update the database connection string in `appsettings.json`.  Find the `ConnectionStrings` section and set `DefaultConnection` to your SQL Server instance. Example:
+### Installation
 
-    ```json
-    {
-      "ConnectionStrings": {
-        "DefaultConnection": "Server=your_server;Database=SurveyBasketDb;User Id=your_user_id;Password=your_password;TrustServerCertificate=true"
-      },
-      "Jwt": {
-        "Key": "YourSuperSecretKeyHere",
-        "Issuer": "https://localhost:7070",
-        "Audience": "https://localhost:7070",
-        "DurationInMinutes": 60
-      },
-      "Logging": {
-        "LogLevel": {
-          "Default": "Information",
-          "Microsoft.AspNetCore": "Warning"
-        }
-      },
-      "AllowedHosts": "*"
-    }
-    ```
-    **Important:** Replace `your_server`, `SurveyBasketDb`, `your_user_id`, and `your_password` with your actual SQL Server credentials.  Also replace `YourSuperSecretKeyHere` with your own secret key for JWT.
-4.  Apply the database migrations:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/muhammadabdelgawad/SurveyBasket.git
+   cd SurveyBasket
+   ```
 
-    ```bash
-    dotnet ef database update -p ../SurveyBasket.Infrastructure/SurveyBasket.Infrastructure.csproj -s SurveyBasket.Api.csproj
-    ```
+2. **Configure the database connection**
+   
+   Update the connection string in `appsettings.json` or use User Secrets:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=SurveyBasketDb;Trusted_Connection=True;"
+     }
+   }
+   ```
 
-5.  Build and run the API:
+3. **Configure JWT settings**
+   ```json
+   {
+     "Jwt": {
+       "Key": "your-super-secret-key-here",
+       "Issuer": "SurveyBasket",
+       "Audience": "SurveyBasketUsers",
+       "ExpiryMinutes": 60
+     }
+   }
+   ```
 
-    ```bash
-    dotnet run -p SurveyBasket.Api.csproj
-    ```
+4. **Apply database migrations**
+   ```bash
+   dotnet ef database update --project SurveyBasket.Infrastructure --startup-project SurveyBasket.Api
+   ```
 
-## Usage Guide
+5. **Run the application**
+   ```bash
+   dotnet run --project SurveyBasket.Api
+   ```
+
+6. **Access the API**
+   - Swagger UI: `https://localhost:{port}/swagger`
+
+## 📡 API Endpoints
 
 ### Authentication
-
-1.  **Login:**
-
-    *   Endpoint: `POST /auth`
-    *   Request Body (JSON):
-
-        ```json
-        {
-          "email": "user@example.com",
-          "password": "password"
-        }
-        ```
-
-    *   Response (JSON):
-
-        ```json
-        {
-          "id": "user_id",
-          "email": "user@example.com",
-          "firstName": "John",
-          "lastName": "Doe",
-          "token": "jwt_token",
-          "expiresIn": 3600,
-          "refreshToken": "refresh_token",
-          "refreshTokenExpiration": "2025-10-21T12:00:00"
-        }
-        ```
-
-2.  **Refresh Token:**
-
-    *   Endpoint: `POST /auth/refresh`
-    *   Request Body (JSON):
-
-        ```json
-        {
-          "token": "jwt_token",
-          "refreshToken": "refresh_token"
-        }
-        ```
-
-    *   Response (JSON): Same as login response.
-
-3.  **Revoke Refresh Token:**
-
-    *   Endpoint: `POST /auth/revoke-refresh-token`
-    *   Request Body (JSON):
-
-        ```json
-        {
-          "token": "jwt_token",
-          "refreshToken": "refresh_token"
-        }
-        ```
-
-    *   Response: `200 OK` on success, `400 Bad Request` on failure.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/Auth/login` | Authenticate user and get tokens |
+| POST | `/Auth/refresh` | Refresh access token |
+| POST | `/Auth/revoke-refresh-token` | Revoke refresh token |
 
 ### Polls
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/Polls` | Get all polls |
+| GET | `/api/Polls/current` | Get currently active polls |
+| GET | `/api/Polls/{id}` | Get poll by ID |
+| POST | `/api/Polls` | Create a new poll |
+| PUT | `/api/Polls/{id}` | Update a poll |
+| DELETE | `/api/Polls/{id}` | Delete a poll |
+| PUT | `/api/Polls/{id}/togglePublish` | Toggle poll publish status |
 
-1.  **Get All Polls:**
+### Questions
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/Polls/{pollId}/Questions` | Get all questions for a poll |
+| GET | `/api/Polls/{pollId}/Questions/{id}` | Get question by ID |
+| POST | `/api/Polls/{pollId}/Questions` | Add question to poll |
+| PUT | `/api/Polls/{pollId}/Questions/{id}` | Update a question |
+| DELETE | `/api/Polls/{pollId}/Questions/{id}` | Delete a question |
 
-    *   Endpoint: `GET /api/polls`
-    *   Authentication: Requires a valid JWT token in the `Authorization` header (Bearer scheme).
+### Votes
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/polls/{pollId}/votes` | Start voting (get available questions) |
+| POST | `/api/polls/{pollId}/votes` | Submit vote |
 
-2.  **Get Poll by ID:**
+### Results
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/polls/{pollId}/Results/row-data` | Get raw voting data |
+| GET | `/api/polls/{pollId}/Results/votes-per-day` | Get votes per day statistics |
+| GET | `/api/polls/{pollId}/Results/votes-per-question` | Get votes per question breakdown |
 
-    *   Endpoint: `GET /api/polls/{id}`
-    *   Authentication: Requires a valid JWT token.
+## 📁 Project Structure
 
-3.  **Add Poll:**
+```
+SurveyBasket/
+├── SurveyBasket.Api/                    # Presentation Layer
+│   ├── Controllers/                     # API Controllers
+│   │   ├── AuthController.cs
+│   │   ├── PollsController.cs
+│   │   ├── QuestionsController.cs
+│   │   ├── VotesController.cs
+│   │   └── ResultsController.cs
+│   ├── Authentication/                  # JWT Configuration
+│   ├── DependencyInjection/            # DI Configuration
+│   ├── Extensions/                      # Extension Methods
+│   └── Program.cs                       # Application Entry Point
+│
+├── SurveyBasket.Application/            # Application Layer
+│   ├── Services/                        # Business Logic Services
+│   ├── Mapping/                         # Object Mapping Configurations
+│   └── Validations/                     # Request Validators
+│
+├── SurveyBasket.Application.Abstractions/  # Abstractions Layer
+│   └── (Interfaces, DTOs, Contracts)
+│
+├── SurveyBasket.Domain/                 # Domain Layer
+│   └── Entities/                        # Domain Entities
+│       ├── Poll.cs
+│       ├── Question.cs
+│       ├── Answer.cs
+│       ├── Vote.cs
+│       ├── VoteAnswer.cs
+│       ├── ApplicationUser.cs
+│       └── RefreshToken.cs
+│
+└── SurveyBasket.Infrastructure/         # Infrastructure Layer
+    ├── AppDbContext.cs                  # EF Core DbContext
+    ├── Migrations/                      # Database Migrations
+    └── EntitiesConfigurations/          # Entity Type Configurations
+```
 
-    *   Endpoint: `POST /api/polls`
-    *   Authentication: Requires a valid JWT token.
-    *   Request Body (JSON):
+## ⚙ Configuration
 
-        ```json
-        {
-          "title": "Sample Poll",
-          "summary": "This is a sample poll description.",
-          "startsAt": "2025-10-21",
-          "endsAt": "2025-10-28"
-        }
-        ```
+### appsettings.json Structure
 
-4.  **Update Poll:**
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Your connection string"
+  },
+  "Jwt": {
+    "Key": "Your JWT secret key",
+    "Issuer": "SurveyBasket",
+    "Audience": "SurveyBasketUsers",
+    "ExpiryMinutes": 60
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information"
+    }
+  }
+}
+```
 
-    *   Endpoint: `PUT /api/polls/{id}`
-    *   Authentication: Requires a valid JWT token.
-    *   Request Body (JSON): Same as add poll request.
+## 🤝 Contributing
 
-5.  **Delete Poll:**
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-    *   Endpoint: `DELETE /api/polls/{id}`
-    *   Authentication: Requires a valid JWT token.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-6.  **Toggle Publish Status:**
+## 📄 License
 
-    *   Endpoint: `PUT /api/polls/{id}/togglePublish`
-    *   Authentication: Requires a valid JWT token.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## API Documentation
+## 👤 Author
 
-The API documentation is generated using Swagger.  After running the application, you can access the Swagger UI at `https://localhost:{port}/swagger/index.html`, where `{port}` is the port number the application is running on (e.g., 7070).  Refer to the generated Swagger documentation for a complete list of endpoints, request parameters, and response schemas.
+**Muhammad Abdelgawad**
 
-## Contributing Guidelines
+- GitHub: [@muhammadabdelgawad](https://github.com/muhammadabdelgawad)
 
-1.  Fork the repository.
-2.  Create a new branch for your feature or bug fix.
-3.  Implement your changes, ensuring code quality and adding relevant tests.
-4.  Submit a pull request with a clear description of your changes.
+---
 
+⭐ If you find this project helpful, please give it a star!
