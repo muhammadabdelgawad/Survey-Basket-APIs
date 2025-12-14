@@ -13,7 +13,6 @@ namespace SurveyBasket.DependencyInjection
                   )
               );
 
-
             services.AddAuthConfig(configuration);
 
             services.AddDatabaseServices(configuration);

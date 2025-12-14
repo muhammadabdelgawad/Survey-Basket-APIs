@@ -1,9 +1,15 @@
+using Serilog;
 using SurveyBasket.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDependencies(builder.Configuration);
 
+builder.Host.UseSerilog((context,configuration) => 
+{
+    configuration.MinimumLevel.Information()
+                 .WriteTo.Console();
+});
 
 var app = builder.Build();
 
