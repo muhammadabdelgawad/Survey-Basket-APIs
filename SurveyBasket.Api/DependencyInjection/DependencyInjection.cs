@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.Repositories.Result;
-namespace SurveyBasket.DependencyInjection
+﻿namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -28,7 +27,7 @@ namespace SurveyBasket.DependencyInjection
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IResultService, ResultService>();
-
+            services.AddScoped<ICacheService, CacheService>();
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
 

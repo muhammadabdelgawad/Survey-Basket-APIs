@@ -8,6 +8,8 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.Extensions.Options;
 global using Microsoft.IdentityModel.Tokens;
 global using SurveyBasket.Api.Extentions;
+global using SurveyBasket.Application.Abstractions.Repositories.Cache;
+global using SurveyBasket.Application.Abstractions.Repositories.Result;
 global using SurveyBasket.Application.Abstractions.Abstractions;
 global using SurveyBasket.Application.Abstractions.DTOs.Auth;
 global using SurveyBasket.Application.Abstractions.DTOs.Polls.Requests;
