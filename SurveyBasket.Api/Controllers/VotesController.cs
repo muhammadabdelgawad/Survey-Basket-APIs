@@ -8,7 +8,6 @@
         private readonly IQuestionService _questionService = questionService;
         private readonly IVoteService _voteService = voteService;
 
-
         [HttpGet("")]
         public async Task<IActionResult> Start([FromBody] int pollId, CancellationToken cancellationToken)
         {
