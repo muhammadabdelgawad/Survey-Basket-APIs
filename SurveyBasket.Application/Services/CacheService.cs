@@ -30,7 +30,6 @@ namespace SurveyBasket.Application.Services
         public async Task RemoveAsync(string key, CancellationToken cancellationToken = default) 
         {
             _logger.LogInformation("Remove cache with key: {key}", key);
-
             await  _distributedCache.RemoveAsync(key, cancellationToken);  
         }
 

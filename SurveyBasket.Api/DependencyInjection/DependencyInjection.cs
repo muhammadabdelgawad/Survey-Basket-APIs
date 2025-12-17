@@ -27,9 +27,11 @@
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IResultService, ResultService>();
-            services.AddScoped<ICacheService, CacheService>();
+           // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+            services.AddDistributedMemoryCache();
+            services.AddHybridCache();
 
             return services;
         }
