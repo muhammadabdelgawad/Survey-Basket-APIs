@@ -18,3 +18,4 @@ global using SurveyBasket.Application.Abstractions.Repositories.Vote;
 global using SurveyBasket.Domain.Entities;
 global using SurveyBasket.Entities;
 global using SurveyBasket.Infrastructure;
+global using SurveyBasket.Application.Abstractions.Repositories.Cache;

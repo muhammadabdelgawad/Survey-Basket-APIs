@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.Repositories.Result;
-namespace SurveyBasket.DependencyInjection
+﻿namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -28,9 +27,11 @@ namespace SurveyBasket.DependencyInjection
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IResultService, ResultService>();
-
+           // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+            services.AddDistributedMemoryCache();
+            services.AddHybridCache();
 
             return services;
         }
