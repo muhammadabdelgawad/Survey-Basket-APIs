@@ -21,9 +21,9 @@
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
         {
-            var authresult = await _authService.RegisterAsync(request, cancellationToken);
+            var result = await _authService.RegisterAsync(request, cancellationToken);
 
-            return authresult.IsSuccess ? Ok(authresult.Value) : authresult.ToProblem();
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
         }
 
         [HttpPost("refresh")]
