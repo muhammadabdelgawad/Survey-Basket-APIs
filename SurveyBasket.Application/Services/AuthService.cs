@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.AspNetCore.Http;
+using System.Security.Cryptography;
 
 namespace SurveyBasket.Services
 {
@@ -8,8 +9,7 @@ namespace SurveyBasket.Services
         private readonly IJwtProvider _jwtProvider = jwtProvider;
         private readonly int _refreshTokenExpiryDays = 14;
 
-        public async Task<Result<AuthResponse>> GetTokenAsync(string email, string password,
-            CancellationToken cancellationToken = default)
+        public async Task<Result<AuthResponse>> GetTokenAsync(string email, string password,CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -40,7 +40,6 @@ namespace SurveyBasket.Services
             return Result.Success(response);
 
         }
-
 
         public async Task<Result<AuthResponse>> GetRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default)
         {
@@ -77,8 +76,6 @@ namespace SurveyBasket.Services
             return Result.Success(response);
         }
 
-
-
         public async Task<Result> RevokeRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default)
         {
 
@@ -102,6 +99,44 @@ namespace SurveyBasket.Services
             await _userManager.UpdateAsync(user);
             return Result.Success();
         }
+        
+        public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
+        {
+            var emailIsExists = await _userManager.Users.AnyAsync(u => u.Email == request.Email,cancellationToken);
+          
+            if(emailIsExists)
+                return Result.Failure<AuthResponse>(UserErrors.DuplicatedEmail);
+
+            var user = request.Adapt<ApplicationUser>();
+
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            if (result.Succeeded)
+            {
+                var (token, expiresIn) = _jwtProvider.GenerateToken(user);
+
+                var refreshToken = GenerateRefreshToken();
+
+                var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
+
+                user.RefreshTokens.Add(new RefreshToken
+                {
+                    Token = refreshToken,
+                    ExpiresOn = refreshTokenExpiration
+                });
+                await _userManager.UpdateAsync(user);
+
+                var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName,token, expiresIn, refreshToken, refreshTokenExpiration);
+
+                return Result.Success(response);
+
+            }
+            var error = result.Errors.First();
+            return Result.Failure<AuthResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
+
+        }
+       
+        
         private static string GenerateRefreshToken()
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));

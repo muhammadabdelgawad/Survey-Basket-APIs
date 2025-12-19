@@ -18,8 +18,16 @@
         }
 
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request, CancellationToken cancellationToken)
+        {
+            var authresult = await _authService.RegisterAsync(request, cancellationToken);
+
+            return authresult.IsSuccess ? Ok(authresult.Value) : authresult.ToProblem();
+        }
+
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshAsync([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var authResult = await _authService.GetRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
@@ -28,7 +36,7 @@
 
 
         [HttpPost("revoke-refresh-token")]
-        public async Task<IActionResult> RevokeRefreshAsync([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
+        public async Task<IActionResult> RevokeRefresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {
             var result = await _authService.RevokeRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
