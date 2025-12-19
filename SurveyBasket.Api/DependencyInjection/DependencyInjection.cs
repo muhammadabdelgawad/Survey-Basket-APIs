@@ -27,7 +27,7 @@
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IResultService, ResultService>();
-           // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
+            // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
             services.AddDistributedMemoryCache();
@@ -106,6 +106,12 @@
                     };
                 });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                // options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+            });
 
             return services;
         }
