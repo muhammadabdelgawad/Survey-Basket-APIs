@@ -30,13 +30,15 @@
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+
+            /// -- Add Cache Services For DistributedMemoryCache & HybridCache
             services.AddDistributedMemoryCache();
             services.AddHybridCache();
 
             return services;
         }
 
-        private static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
                                   throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -57,6 +59,7 @@
         {
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
+
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             return services;
@@ -109,7 +112,7 @@
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 8;
-                // options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
                 options.User.RequireUniqueEmail = true;
             });
 

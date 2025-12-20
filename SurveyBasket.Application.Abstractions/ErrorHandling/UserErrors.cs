@@ -13,5 +13,8 @@
         
         public static readonly Error DuplicatedEmail =
             new("User.DuplicatedEmail", "Another user with the same email is already exists", StatusCodes.Status409Conflict);
+        
+        public static readonly Error EmailNotConfirmed =
+            new("User.EmailNotConfirmed", "Email Is Not Confirmed", StatusCodes.Status401Unauthorized);
     }
 }
