@@ -1,4 +1,7 @@
-﻿namespace SurveyBasket.DependencyInjection
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using SurveyBasket.Application.Abstractions.Settings;
+
+namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -27,16 +30,23 @@
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IResultService, ResultService>();
-           // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
+            services.AddScoped<IEmailSender, EmailService>();
+            // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+
+            services.AddHttpContextAccessor();
+
+            services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
+
+            /// -- Add Cache Services For DistributedMemoryCache & HybridCache
             services.AddDistributedMemoryCache();
             services.AddHybridCache();
 
             return services;
         }
 
-        private static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
                                   throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -57,6 +67,7 @@
         {
             var mappingConfig = TypeAdapterConfig.GlobalSettings;
             mappingConfig.Scan(Assembly.GetExecutingAssembly());
+
             services.AddSingleton<IMapper>(new Mapper(mappingConfig));
 
             return services;
@@ -74,7 +85,8 @@
         public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
@@ -106,6 +118,12 @@
                     };
                 });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+            });
 
             return services;
         }
