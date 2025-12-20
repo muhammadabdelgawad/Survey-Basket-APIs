@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using SurveyBasket.Api.Settings;
+using SurveyBasket.Application.Abstractions.Settings;
 
 namespace SurveyBasket.DependencyInjection
 {
@@ -34,6 +34,8 @@ namespace SurveyBasket.DependencyInjection
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+
+            services.AddHttpContextAccessor();
 
             services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
 
