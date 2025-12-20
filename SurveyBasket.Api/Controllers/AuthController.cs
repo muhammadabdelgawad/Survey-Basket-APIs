@@ -33,6 +33,13 @@
 
             return result.IsSuccess ? Ok() : result.ToProblem();
         }
+        [HttpPost("resend-confirmation-email")]
+        public async Task<IActionResult> ResendConfirmEmail([FromBody] ResendConfirmationEmailRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _authService.ResendConfirmationEmailAsync(request);
+
+            return result.IsSuccess ? Ok() : result.ToProblem();
+        }
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)

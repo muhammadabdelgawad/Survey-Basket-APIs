@@ -14,5 +14,6 @@ namespace SurveyBasket.Application.Abstractions.Repositories.Auth
         public Task<Abstractions.Result> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default);
 
         Task<Abstractions.Result> ConfirmEmailAsync(ConfirmEmailRequest request);
+        Task<Abstractions.Result> ResendConfirmationEmailAsync(ResendConfirmationEmailRequest request);
     }
 }
