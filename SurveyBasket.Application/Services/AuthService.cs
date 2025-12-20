@@ -11,7 +11,7 @@ namespace SurveyBasket.Services
         ILogger<AuthService> logger,
         SignInManager<ApplicationUser> signInManager,
         IJwtProvider jwtProvider
-        )  : IAuthService
+        ) : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly ILogger<AuthService> _logger = logger;
@@ -19,7 +19,7 @@ namespace SurveyBasket.Services
         private readonly IJwtProvider _jwtProvider = jwtProvider;
         private readonly int _refreshTokenExpiryDays = 14;
 
-        public async Task<Result<AuthResponse>> GetTokenAsync(string email, string password,CancellationToken cancellationToken = default)
+        public async Task<Result<AuthResponse>> GetTokenAsync(string email, string password, CancellationToken cancellationToken = default)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -43,7 +43,7 @@ namespace SurveyBasket.Services
                 });
                 await _userManager.UpdateAsync(user);
 
-                var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName,token, expiresIn, refreshToken, refreshTokenExpiration);
+                var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName, token, expiresIn, refreshToken, refreshTokenExpiration);
 
                 return Result.Success(response);
             }
@@ -109,34 +109,62 @@ namespace SurveyBasket.Services
             await _userManager.UpdateAsync(user);
             return Result.Success();
         }
-        
+
         public async Task<Result> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
         {
-            var emailIsExists = await _userManager.Users.AnyAsync(u => u.Email == request.Email,cancellationToken);
-          
-            if(emailIsExists)
-                return Result.Failure<AuthResponse>(UserErrors.DuplicatedEmail);
+            var emailIsExists = await _userManager.Users.AnyAsync(u => u.Email == request.Email, cancellationToken);
+
+            if (emailIsExists)
+                return Result.Failure(UserErrors.DuplicatedEmail);
 
             var user = request.Adapt<ApplicationUser>();
             user.UserName = request.Email;
 
             var result = await _userManager.CreateAsync(user, request.Password);
-            
+
             if (result.Succeeded)
             {
-                var code =await  _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
                 _logger.LogInformation("Confirmation code: {Code}", code);
-                // todo: send email confirmation
+
                 return Result.Success();
             }
             var error = result.Errors.First();
-            return Result.Failure<AuthResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
+            return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
 
         }
-       
-        
+
+        public async Task<Result> ConfirmEmailAsync(ConfirmEmailRequest request)
+        {
+            if (await _userManager.FindByIdAsync(request.UserId) is not { } user)
+                return Result.Failure(UserErrors.InvalidCode);
+
+            if (user.EmailConfirmed)
+                return Result.Failure(UserErrors.DuplicatedConfirmation);
+
+            var code = request.Code;
+            try
+            {
+                code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            }
+            catch (FormatException)
+            {
+                return Result.Failure(UserErrors.InvalidCode);
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+                return Result.Success();
+
+            var error = result.Errors.First();
+            return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));
+
+        }
+
+
         private static string GenerateRefreshToken()
         {
             return Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));

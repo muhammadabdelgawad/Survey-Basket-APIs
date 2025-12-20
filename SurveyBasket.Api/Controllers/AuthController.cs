@@ -26,6 +26,14 @@
             return result.IsSuccess ? Ok() : result.ToProblem();
         }
 
+        [HttpPost("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
+        {
+            var result = await _authService.ConfirmEmailAsync(request);
+
+            return result.IsSuccess ? Ok() : result.ToProblem();
+        }
+
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken)
         {

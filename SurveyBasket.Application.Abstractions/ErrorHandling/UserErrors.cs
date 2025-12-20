@@ -16,5 +16,11 @@
         
         public static readonly Error EmailNotConfirmed =
             new("User.EmailNotConfirmed", "Email Is Not Confirmed", StatusCodes.Status401Unauthorized);
+        
+        public static readonly Error InvalidCode =
+         new("User.InvalidCode", "Invalid Code", StatusCodes.Status401Unauthorized);
+        
+        public static readonly Error DuplicatedConfirmation =
+         new("User.DuplicatedConfirmation", "Email is already confirmed", StatusCodes.Status400BadRequest);
     }
 }
