@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.DependencyInjection
+﻿using SurveyBasket.Api.Settings;
+
+namespace SurveyBasket.DependencyInjection
 {
     public static class DependencyInjection
     {
@@ -30,6 +32,8 @@
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+
+            services.Configure<MailSettings>(configuration.GetSection(nameof(MailSettings)));
 
             /// -- Add Cache Services For DistributedMemoryCache & HybridCache
             services.AddDistributedMemoryCache();
