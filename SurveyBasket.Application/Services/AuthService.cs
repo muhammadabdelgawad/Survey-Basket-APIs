@@ -1,11 +1,20 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
+using System.Text;
 namespace SurveyBasket.Services
 {
-    public class AuthService(UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager,IJwtProvider jwtProvider) : IAuthService
+    public class AuthService
+        (
+        UserManager<ApplicationUser> userManager,
+        ILogger<AuthService> logger,
+        SignInManager<ApplicationUser> signInManager,
+        IJwtProvider jwtProvider
+        )  : IAuthService
     {
         private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly ILogger<AuthService> _logger = logger;
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
         private readonly IJwtProvider _jwtProvider = jwtProvider;
         private readonly int _refreshTokenExpiryDays = 14;
@@ -101,7 +110,7 @@ namespace SurveyBasket.Services
             return Result.Success();
         }
         
-        public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
+        public async Task<Result> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
         {
             var emailIsExists = await _userManager.Users.AnyAsync(u => u.Email == request.Email,cancellationToken);
           
@@ -115,23 +124,12 @@ namespace SurveyBasket.Services
             
             if (result.Succeeded)
             {
-                var (token, expiresIn) = _jwtProvider.GenerateToken(user);
+                var code =await  _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                var refreshToken = GenerateRefreshToken();
-
-                var refreshTokenExpiration = DateTime.UtcNow.AddDays(_refreshTokenExpiryDays);
-
-                user.RefreshTokens.Add(new RefreshToken
-                {
-                    Token = refreshToken,
-                    ExpiresOn = refreshTokenExpiration
-                });
-                await _userManager.UpdateAsync(user);
-
-                var response = new AuthResponse(user.Id, user.Email, user.FirstName, user.LastName,token, expiresIn, refreshToken, refreshTokenExpiration);
-
-                return Result.Success(response);
-
+                _logger.LogInformation("Confirmation code: {Code}", code);
+                // todo: send email confirmation
+                return Result.Success();
             }
             var error = result.Errors.First();
             return Result.Failure<AuthResponse>(new Error(error.Code, error.Description, StatusCodes.Status400BadRequest));

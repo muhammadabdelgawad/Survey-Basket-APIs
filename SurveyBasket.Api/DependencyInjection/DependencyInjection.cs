@@ -77,7 +77,8 @@
         public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<AppDbContext>();
+                .AddEntityFrameworkStores<AppDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
