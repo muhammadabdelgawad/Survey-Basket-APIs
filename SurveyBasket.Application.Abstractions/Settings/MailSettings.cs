@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Api.Settings
+﻿namespace SurveyBasket.Application.Abstractions.Settings
 {
     public class MailSettings
     {
@@ -8,6 +8,6 @@
         public string Host { get; set; } = string.Empty;
         public int Port { get; set; }
 
-        
+
     }
 }

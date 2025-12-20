@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Api.Settings;
+﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using SurveyBasket.Api.Settings;
 
 namespace SurveyBasket.DependencyInjection
 {
@@ -29,6 +30,7 @@ namespace SurveyBasket.DependencyInjection
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IVoteService, VoteService>();
             services.AddScoped<IResultService, ResultService>();
+            services.AddScoped<IEmailSender, EmailService>();
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
