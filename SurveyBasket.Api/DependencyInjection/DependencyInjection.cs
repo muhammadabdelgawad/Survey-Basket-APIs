@@ -60,6 +60,14 @@ namespace SurveyBasket.DependencyInjection
                     facebookOptions.AppId = facebookAuthSection["AppId"]!;
                     facebookOptions.AppSecret = facebookAuthSection["AppSecret"]!;
 
+                })
+                .AddMicrosoftAccount(microsoftOptions =>
+                {
+                    IConfigurationSection microsoftAuthSection = configuration.GetSection("Authentication:Microsoft");
+
+                    microsoftOptions.ClientId = microsoftAuthSection["ClientId"]!;
+                    microsoftOptions.ClientSecret = microsoftAuthSection["ClientSecret"]!;
+
                 });
 
             return services;
