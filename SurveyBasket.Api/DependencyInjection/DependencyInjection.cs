@@ -43,6 +43,16 @@ namespace SurveyBasket.DependencyInjection
             services.AddDistributedMemoryCache();
             services.AddHybridCache();
 
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    IConfigurationSection googleAuthSection = configuration.GetSection("Authentication:Google");
+
+                    options.ClientId = googleAuthSection["ClientId"]!;
+                    options.ClientSecret = googleAuthSection["ClientSecret"]!;
+
+                });
+
             return services;
         }
 
