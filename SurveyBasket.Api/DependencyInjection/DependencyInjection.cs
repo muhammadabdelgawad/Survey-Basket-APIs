@@ -43,13 +43,22 @@ namespace SurveyBasket.DependencyInjection
             services.AddDistributedMemoryCache();
             services.AddHybridCache();
 
+            /// -- Add External Authentication Providers (Google, Facebook , Microsoft)
             services.AddAuthentication()
-                .AddGoogle(options =>
+                .AddGoogle(googleOptions =>
                 {
                     IConfigurationSection googleAuthSection = configuration.GetSection("Authentication:Google");
 
-                    options.ClientId = googleAuthSection["ClientId"]!;
-                    options.ClientSecret = googleAuthSection["ClientSecret"]!;
+                    googleOptions.ClientId = googleAuthSection["ClientId"]!;
+                    googleOptions.ClientSecret = googleAuthSection["ClientSecret"]!;
+
+                })
+                .AddFacebook(facebookOptions =>
+                {
+                    IConfigurationSection facebookAuthSection = configuration.GetSection("Authentication:Facebook");
+
+                    facebookOptions.AppId = facebookAuthSection["AppId"]!;
+                    facebookOptions.AppSecret = facebookAuthSection["AppSecret"]!;
 
                 });
 
