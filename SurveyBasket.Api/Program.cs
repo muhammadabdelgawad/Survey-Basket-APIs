@@ -1,3 +1,4 @@
+using Hangfire;
 using Serilog;
 using SurveyBasket.DependencyInjection;
 
@@ -17,11 +18,14 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
 }
 
 app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
+
+app.UseHangfireDashboard("/jobs");
 
 app.UseCors();
 
