@@ -2,5 +2,6 @@
 {
     public interface INotificationService
     {
+        Task SendNewNotificationAsync(int? pollId = null);
     }
 }
