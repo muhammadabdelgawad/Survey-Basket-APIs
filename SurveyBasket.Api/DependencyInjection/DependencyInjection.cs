@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using SurveyBasket.Application.Abstractions.Settings;
 
 namespace SurveyBasket.DependencyInjection
@@ -34,6 +35,7 @@ namespace SurveyBasket.DependencyInjection
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
             services.AddProblemDetails();
+            services.AddBackgroundJobsConfig(configuration);
 
             services.AddHttpContextAccessor();
 
@@ -76,7 +78,7 @@ namespace SurveyBasket.DependencyInjection
         public static IServiceCollection AddDatabaseServices(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection") ??
-                                  throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+                                  throw new InvalidOperationException("Connection string 'DefaultConnection' not founded");
             services.AddDbContext<AppDbContext>(options =>
               options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             return services;
@@ -154,6 +156,18 @@ namespace SurveyBasket.DependencyInjection
 
             return services;
         }
+        public static IServiceCollection AddBackgroundJobsConfig(this IServiceCollection services,IConfiguration configuration)
+        { 
+            services.AddHangfire(config => config
+                .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseRecommendedSerializerSettings()
+                .UseSqlServerStorage(configuration.GetConnectionString("HangfireConnection"))
+            );
 
+            services.AddHangfireServer();
+
+            return services;
+        }
     }
 }
