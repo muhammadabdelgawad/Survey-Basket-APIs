@@ -21,3 +21,6 @@ global using SurveyBasket.Domain.Entities;
 global using SurveyBasket.Entities;
 global using SurveyBasket.Infrastructure;
 global using Microsoft.AspNetCore.Http;
+global using Hangfire;
+global using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
+global using SurveyBasket.Application.Abstractions.Repositories.Notification;

@@ -1,10 +1,9 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
-
-namespace SurveyBasket.Application.Services
+﻿namespace SurveyBasket.Application.Services
 {
-    public class PollService(AppDbContext context) : IPollService
+    public class PollService(AppDbContext context, INotificationService notificationService) : IPollService
     {
         private readonly AppDbContext _dbContext = context;
+        private readonly INotificationService _notificationService = notificationService;
 
         public async Task<IEnumerable<PollResponse>> GetAllAsync(CancellationToken cancellationToken = default)
             => await _dbContext.Polls.AsNoTracking()
@@ -87,6 +86,9 @@ namespace SurveyBasket.Application.Services
             poll.IsPublished = !poll.IsPublished;
 
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            if (poll.IsPublished && poll.StartsAt == DateOnly.FromDateTime(DateTime.UtcNow))
+                BackgroundJob.Enqueue(() => _notificationService.SendNewNotificationAsync(poll.Id));
 
             return Result.Success();
 
