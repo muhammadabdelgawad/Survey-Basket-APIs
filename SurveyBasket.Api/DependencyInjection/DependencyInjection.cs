@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SurveyBasket.Application.Abstractions.Repositories.Notification;
+using SurveyBasket.Application.Abstractions.Repositories.Users;
 using SurveyBasket.Application.Abstractions.Settings;
 
 namespace SurveyBasket.DependencyInjection
@@ -34,6 +35,7 @@ namespace SurveyBasket.DependencyInjection
             services.AddScoped<IResultService, ResultService>();
             services.AddScoped<IEmailSender, EmailService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IUserService, UserService>();
 
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
