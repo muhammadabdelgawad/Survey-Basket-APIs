@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Application.Abstractions.DTOs.Users
+﻿namespace SurveyBasket.Application.Abstractions.DTOs.Users.Request
 {
     public record UpdateProfileRequest
     (

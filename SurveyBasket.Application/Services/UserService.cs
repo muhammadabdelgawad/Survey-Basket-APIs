@@ -1,4 +1,7 @@
-﻿namespace SurveyBasket.Application.Services
+﻿using SurveyBasket.Application.Abstractions.DTOs.Users.Request;
+using SurveyBasket.Application.Abstractions.DTOs.Users.Response;
+
+namespace SurveyBasket.Application.Services
 {
     public class UserService(UserManager<ApplicationUser> userManager) : IUserService
     {
@@ -19,7 +22,7 @@
             var user = await _userManager.FindByIdAsync(userId);
 
             user = request.Adapt(user);
-            await _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user!);
 
             return Result.Success();
         }

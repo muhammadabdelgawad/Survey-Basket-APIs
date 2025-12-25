@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Users;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Users.Request;
+using SurveyBasket.Application.Abstractions.DTOs.Users.Response;
 namespace SurveyBasket.Application.Abstractions.Repositories.Users
 {
     public interface IUserService

@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Application.Validations.Users
+﻿using SurveyBasket.Application.Abstractions.DTOs.Users.Request;
+
+namespace SurveyBasket.Application.Validations.Users
 {
     public class UpdateProfileRequestValidator :AbstractValidator<UpdateProfileRequest>
     {

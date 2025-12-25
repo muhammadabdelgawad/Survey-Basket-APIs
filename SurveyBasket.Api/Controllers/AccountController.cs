@@ -1,4 +1,4 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Users;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Users.Request;
 using SurveyBasket.Application.Abstractions.Repositories.Users;
 
 namespace SurveyBasket.Api.Controllers
