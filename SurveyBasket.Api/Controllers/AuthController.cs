@@ -1,8 +1,9 @@
-﻿namespace SurveyBasket.Controllers
+﻿using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
+namespace SurveyBasket.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    public class AuthController(IAuthService authService, IOptions<JwtOptions> jwtOptions , ILogger<AuthController> logger) : ControllerBase
+    public class AuthController(IAuthService authService, IOptions<JwtOptions> jwtOptions, ILogger<AuthController> logger) : ControllerBase
     {
         private readonly IAuthService _authService = authService;
         private readonly ILogger<AuthController> _logger = logger;
@@ -11,7 +12,7 @@
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Login attempt for email: {Email} ", request.Email); 
+            _logger.LogInformation("Login attempt for email: {Email} ", request.Email);
             var authResult = await _authService.GetTokenAsync(request.Email, request.Password, cancellationToken);
 
             return authResult.IsSuccess ? Ok(authResult.Value) : authResult.ToProblem();
@@ -26,6 +27,7 @@
             return result.IsSuccess ? Ok() : result.ToProblem();
         }
 
+
         [HttpPost("confirm-email")]
         public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request, CancellationToken cancellationToken)
         {
@@ -33,10 +35,29 @@
 
             return result.IsSuccess ? Ok() : result.ToProblem();
         }
+
+
         [HttpPost("resend-confirmation-email")]
         public async Task<IActionResult> ResendConfirmEmail([FromBody] ResendConfirmationEmailRequest request, CancellationToken cancellationToken)
         {
             var result = await _authService.ResendConfirmationEmailAsync(request);
+
+            return result.IsSuccess ? Ok() : result.ToProblem();
+        }
+
+
+        [HttpPost("forget-password")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordRequest request)
+        {
+            var result = await _authService.SendResetPasswordCodeAsync(request.Email);
+
+            return result.IsSuccess ? Ok() : result.ToProblem();
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPasswor([FromBody] ResetPasswordRequest request)
+        {
+            var result = await _authService.ResetPasswordAsync(request);
 
             return result.IsSuccess ? Ok() : result.ToProblem();
         }

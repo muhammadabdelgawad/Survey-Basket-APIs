@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
 using System.Text.Json;
 
 namespace SurveyBasket.Application.Services
@@ -12,11 +11,11 @@ namespace SurveyBasket.Application.Services
         public async Task<T?> GetAsync<T>(string key, CancellationToken cancellationToken = default) where T : class
         {
             _logger.LogInformation("Get cache with key: {key}", key);
-        
-           var cachedValue = await _distributedCache.GetStringAsync(key, cancellationToken);
 
-            return cachedValue is null 
-                ? null 
+            var cachedValue = await _distributedCache.GetStringAsync(key, cancellationToken);
+
+            return cachedValue is null
+                ? null
                 : JsonSerializer.Deserialize<T>(cachedValue);
         }
 
@@ -27,12 +26,12 @@ namespace SurveyBasket.Application.Services
             await _distributedCache.SetStringAsync(key, JsonSerializer.Serialize(value), cancellationToken);
         }
 
-        public async Task RemoveAsync(string key, CancellationToken cancellationToken = default) 
+        public async Task RemoveAsync(string key, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Remove cache with key: {key}", key);
-            await  _distributedCache.RemoveAsync(key, cancellationToken);  
+            await _distributedCache.RemoveAsync(key, cancellationToken);
         }
 
-        
+
     }
 }

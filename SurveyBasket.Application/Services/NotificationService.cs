@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Api.Helpers;
-namespace SurveyBasket.Application.Services
+﻿namespace SurveyBasket.Application.Services
 {
     public class NotificationService(
         AppDbContext dbContext,
@@ -37,7 +36,7 @@ namespace SurveyBasket.Application.Services
             {
                 foreach (var user in usere)
                 {
-                    var placeHolders=  new Dictionary<string, string>
+                    var placeHolders = new Dictionary<string, string>
                     {
                         { "{{name}}", user.FirstName},
                         { "{{pollTill}}", poll.Title},

@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Caching.Hybrid;
-using Microsoft.Extensions.Logging;
 using SurveyBasket.Application.Abstractions.DTOs.Answers;
 
 namespace SurveyBasket.Application.Services
 {
-    public class QuestionService(AppDbContext dbContext/*,ICacheService cacheService*/,HybridCache hybridCache, ILogger<QuestionService> logger) : IQuestionService
+    public class QuestionService(AppDbContext dbContext/*,ICacheService cacheService*/, HybridCache hybridCache, ILogger<QuestionService> logger) : IQuestionService
     {
         private readonly AppDbContext _dbContext = dbContext;
-       // private readonly ICacheService _cacheService = cacheService;
+        // private readonly ICacheService _cacheService = cacheService;
         private readonly HybridCache _hybridCache = hybridCache;
         private readonly ILogger<QuestionService> _logger = logger;
         private const string _cachePrefix = "AvailableQuestions";
@@ -85,7 +84,7 @@ namespace SurveyBasket.Application.Services
                     q.Answers.Where(a => a.IsActive).Select(a => new AnswerResponse(a.Id, a.Content))
                 )).AsNoTracking()
                   .ToListAsync(cancellationToken)
-               
+
             );
 
             return Result.Success(questions!);
@@ -124,7 +123,7 @@ namespace SurveyBasket.Application.Services
             await _dbContext.AddAsync(question, cancellationToken);
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-           await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}", cancellationToken);
+            await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}", cancellationToken);
 
             return Result.Success(question.Adapt<QuestionResponse>());
         }
@@ -183,7 +182,7 @@ namespace SurveyBasket.Application.Services
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}",cancellationToken);
+            await _hybridCache.RemoveAsync($"{_cachePrefix}-{pollId}", cancellationToken);
 
             return Result.Success();
         }

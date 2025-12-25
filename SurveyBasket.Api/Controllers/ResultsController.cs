@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using SurveyBasket.Application.Abstractions.Repositories.Result;
-
-namespace SurveyBasket.Api.Controllers
+﻿namespace SurveyBasket.Api.Controllers
 {
     [Route("api/polls/{pollId}/[controller]")]
     [ApiController]
