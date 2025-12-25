@@ -1,5 +1,4 @@
 using Hangfire;
-using Hangfire.Dashboard;
 using HangfireBasicAuthenticationFilter;
 using Serilog;
 using SurveyBasket.Application.Abstractions.Repositories.Notification;
@@ -37,9 +36,8 @@ app.UseHangfireDashboard("/jobs", new DashboardOptions
         }
     ],
     DashboardTitle = "Survey Basket Dashboard",
-    /// Make dashboard read-only for all users (Limit Actions)
-    
-    // IsReadOnlyFunc = (DashboardContext context) => true
+
+    // IsReadOnlyFunc = (DashboardContext context) => true   //-- Make dashboard read-only for all users (Limit Actions)
 
 });
 var scopFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
