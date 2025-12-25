@@ -13,5 +13,15 @@
 
             return Result.Success(user);
         }
+
+        public async Task<Result> UpdateProfileAsync(string userId, UpdateProfileRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            user = request.Adapt(user);
+            await _userManager.UpdateAsync(user);
+
+            return Result.Success();
+        }
     }
 }

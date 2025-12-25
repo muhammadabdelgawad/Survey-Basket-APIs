@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Application.Abstractions.Repositories.Users;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Users;
+using SurveyBasket.Application.Abstractions.Repositories.Users;
 
 namespace SurveyBasket.Api.Controllers
 {
@@ -15,6 +16,13 @@ namespace SurveyBasket.Api.Controllers
             var userProfile = await _userService.GetProfileAsync(User.GetUserId()!);
 
             return Ok(userProfile);
+        }
+
+        [HttpPut("info")]
+        public async Task<IActionResult> Info([FromBody] UpdateProfileRequest request)
+        {
+            await _userService.UpdateProfileAsync(User.GetUserId()!, request);
+            return NoContent();
         }
     }
 }
