@@ -117,6 +117,9 @@ namespace SurveyBasket.Services
             if (await _userManager.FindByEmailAsync(email) is not { } user)
                 return Result.Success();
 
+            if(!user.EmailConfirmed)
+                return Result.Failure(UserErrors.EmailNotConfirmed);
+
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
@@ -126,7 +129,6 @@ namespace SurveyBasket.Services
 
             return Result.Success();
         }
-
 
         public async Task<Result> ResetPasswordAsync(ResetPasswordRequest request)
         {
@@ -155,7 +157,6 @@ namespace SurveyBasket.Services
             return Result.Failure(new Error(error.Code, error.Description, StatusCodes.Status401Unauthorized));
 
         }
-
 
         public async Task<Result> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
         {
