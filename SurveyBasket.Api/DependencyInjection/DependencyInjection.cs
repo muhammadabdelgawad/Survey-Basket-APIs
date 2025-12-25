@@ -1,8 +1,11 @@
-﻿using Hangfire;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Hangfire;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using SurveyBasket.Application.Abstractions.Repositories.Notification;
 using SurveyBasket.Application.Abstractions.Repositories.Users;
 using SurveyBasket.Application.Abstractions.Settings;
+using SurveyBasket.Application.Validations.Auth;
 
 namespace SurveyBasket.DependencyInjection
 {
@@ -109,9 +112,9 @@ namespace SurveyBasket.DependencyInjection
 
         public static IServiceCollection AddFluentValidationConfig(this IServiceCollection services)
         {
-            var mappingConfig = TypeAdapterConfig.GlobalSettings;
-            mappingConfig.Scan(Assembly.GetExecutingAssembly());
-            services.AddSingleton<IMapper>(new Mapper(mappingConfig));
+            services
+            .AddFluentValidationAutoValidation()
+            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }
