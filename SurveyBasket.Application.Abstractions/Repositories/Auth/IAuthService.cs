@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Application.Abstractions.DTOs.Auth;
+﻿using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
+using SurveyBasket.Application.Abstractions.DTOs.Auth.Response;
 namespace SurveyBasket.Application.Abstractions.Repositories.Auth
 
 {

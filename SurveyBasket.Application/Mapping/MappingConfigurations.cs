@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Application.Mapping
+﻿using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
+
+namespace SurveyBasket.Application.Mapping
 {
     public class MappingConfigurations : IRegister
     {

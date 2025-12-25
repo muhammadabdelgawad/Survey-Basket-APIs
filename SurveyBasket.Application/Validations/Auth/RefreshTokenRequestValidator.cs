@@ -1,4 +1,6 @@
 ﻿
+using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
+
 namespace SurveyBasket.Application.Validations.Auth
 {
     public class RefreshTokenRequestValidator : AbstractValidator<RefreshTokenRequest>

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SurveyBasket.Api.Helpers;
+using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
+using SurveyBasket.Application.Abstractions.DTOs.Auth.Response;
 using System.Security.Cryptography;
 using System.Text;
 namespace SurveyBasket.Services

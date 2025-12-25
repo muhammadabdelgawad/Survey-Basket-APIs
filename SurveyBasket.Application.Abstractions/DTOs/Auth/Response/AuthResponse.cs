@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Application.Abstractions.DTOs.Auth;
+﻿namespace SurveyBasket.Application.Abstractions.DTOs.Auth.Response;
 
 public record AuthResponse(
 

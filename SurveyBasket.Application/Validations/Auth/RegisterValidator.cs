@@ -1,4 +1,5 @@
 ﻿using SurveyBasket.Application.Abstractions.Abstractions.Const;
+using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
 
 namespace SurveyBasket.Application.Validations.Auth
 {

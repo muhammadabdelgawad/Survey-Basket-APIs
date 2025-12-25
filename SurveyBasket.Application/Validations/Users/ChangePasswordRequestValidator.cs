@@ -8,8 +8,7 @@ namespace SurveyBasket.Application.Validations.Users
         public ChangePasswordRequestValidator()
         {
             RuleFor(p => p.CurrentPassword)
-                .NotEmpty()
-                .WithMessage("");
+                .NotEmpty();
 
             RuleFor(p => p.NewPassword)
                 .NotEmpty()

@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket.Controllers
+﻿using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
+
+namespace SurveyBasket.Controllers
 {
     [Route("[controller]")]
     [ApiController]
