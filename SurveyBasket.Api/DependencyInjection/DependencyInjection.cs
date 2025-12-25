@@ -114,7 +114,7 @@ namespace SurveyBasket.DependencyInjection
         {
             services
             .AddFluentValidationAutoValidation()
-            .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            .AddValidatorsFromAssembly(typeof(LoginRequestValidator).Assembly);
 
             return services;
         }

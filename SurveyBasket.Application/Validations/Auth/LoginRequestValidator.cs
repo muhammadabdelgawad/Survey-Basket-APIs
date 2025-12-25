@@ -1,5 +1,4 @@
 ﻿
-
 namespace SurveyBasket.Application.Validations.Auth
 {
     public class LoginRequestValidator : AbstractValidator<LoginRequest>
