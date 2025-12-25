@@ -6,6 +6,6 @@ namespace SurveyBasket.Application.Abstractions.Repositories.Users
     {
         Task<Result<UserProfileResponse>> GetProfileAsync(string userId);
         Task<Abstractions.Result> UpdateProfileAsync(string userId, UpdateProfileRequest request);
-        Task<Abstractions.Result> ChangePasswordAsync(string userId,ChangePasswordRequest request);
+        Task<Abstractions.Result> ChangePasswordAsync(string userId, ChangePasswordRequest request);
     }
 }

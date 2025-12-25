@@ -11,7 +11,7 @@ namespace SurveyBasket.Api.Controllers
         private readonly IUserService _userService = userService;
 
         [HttpGet("")]
-        public async Task<IActionResult> Info() 
+        public async Task<IActionResult> Info()
         {
             var userProfile = await _userService.GetProfileAsync(User.GetUserId()!);
 
@@ -28,9 +28,9 @@ namespace SurveyBasket.Api.Controllers
         [HttpPut("change-password")]
         public async Task<IActionResult> ChangePasswordAsync([FromBody] ChangePasswordRequest request)
         {
-           var result = await _userService.ChangePasswordAsync(User.GetUserId()!, request);
+            var result = await _userService.ChangePasswordAsync(User.GetUserId()!, request);
 
-            return result.IsSuccess? NoContent() : result.ToProblem();
+            return result.IsSuccess ? NoContent() : result.ToProblem();
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace SurveyBasket.Application.Abstractions.Repositories.Polls
+﻿using SurveyBasket.Application.Abstractions.DTOs.Polls.Requests;
+using SurveyBasket.Application.Abstractions.DTOs.Polls.Responses;
+
+namespace SurveyBasket.Application.Abstractions.Repositories.Polls
 {
     public interface IPollService
     {

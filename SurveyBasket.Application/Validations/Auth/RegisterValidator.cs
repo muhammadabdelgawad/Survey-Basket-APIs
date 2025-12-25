@@ -1,9 +1,8 @@
 ﻿using SurveyBasket.Application.Abstractions.Abstractions.Const;
-using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
 
 namespace SurveyBasket.Application.Validations.Auth
 {
-    public class RegisterValidator: AbstractValidator<RegisterRequest>
+    public class RegisterValidator : AbstractValidator<RegisterRequest>
     {
         public RegisterValidator()
         {
@@ -18,7 +17,7 @@ namespace SurveyBasket.Application.Validations.Auth
 
             RuleFor(x => x.FirstName)
                 .NotEmpty()
-                .Length(3,100);
+                .Length(3, 100);
 
             RuleFor(x => x.LastName)
                 .NotEmpty()

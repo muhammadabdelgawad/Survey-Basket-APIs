@@ -1,6 +1,5 @@
 ﻿using SurveyBasket.Application.Abstractions.DTOs.Questions.Requests;
 using SurveyBasket.Application.Abstractions.DTOs.Questions.Responses;
-using SurveyBasket.Application.Abstractions.Abstractions;
 
 namespace SurveyBasket.Application.Abstractions.Repositories.Questions
 {

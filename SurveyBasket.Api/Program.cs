@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDependencies(builder.Configuration);
 // -- Logging Configuration - Using Serilog
-builder.Host.UseSerilog((context,configuration) => 
+builder.Host.UseSerilog((context, configuration) =>
 {
     configuration.ReadFrom.Configuration(context.Configuration);
 });
@@ -41,9 +41,9 @@ app.UseHangfireDashboard("/jobs", new DashboardOptions
 
 });
 var scopFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
-using var scope= scopFactory.CreateScope();
-var notificationService =  scope.ServiceProvider.GetRequiredService<INotificationService>();
- 
+using var scope = scopFactory.CreateScope();
+var notificationService = scope.ServiceProvider.GetRequiredService<INotificationService>();
+
 RecurringJob.AddOrUpdate("SendNewNotificationAsync", () => notificationService.SendNewNotificationAsync(null), Cron.Daily /*"0 9 1 * *"*/);
 
 app.UseCors();

@@ -164,8 +164,8 @@ namespace SurveyBasket.DependencyInjection
 
             return services;
         }
-        public static IServiceCollection AddBackgroundJobsConfig(this IServiceCollection services,IConfiguration configuration)
-        { 
+        public static IServiceCollection AddBackgroundJobsConfig(this IServiceCollection services, IConfiguration configuration)
+        {
             services.AddHangfire(config => config
                 .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
                 .UseSimpleAssemblyNameTypeSerializer()

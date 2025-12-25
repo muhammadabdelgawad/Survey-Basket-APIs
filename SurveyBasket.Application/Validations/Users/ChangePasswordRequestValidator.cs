@@ -3,7 +3,7 @@ using SurveyBasket.Application.Abstractions.DTOs.Users.Request;
 
 namespace SurveyBasket.Application.Validations.Users
 {
-    public class ChangePasswordRequestValidator :AbstractValidator<ChangePasswordRequest>
+    public class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRequest>
     {
         public ChangePasswordRequestValidator()
         {
@@ -14,7 +14,7 @@ namespace SurveyBasket.Application.Validations.Users
                 .NotEmpty()
                 .Matches(RegexPatterns.Password)
                 .WithMessage("Password must be at least 8 digits  and contain at least one uppercase letter, one lowercase letter, one digit and one special character ")
-                .NotEqual(p=>p.CurrentPassword)
+                .NotEqual(p => p.CurrentPassword)
                 .WithMessage("New Password cannot be same as the current password");
 
         }

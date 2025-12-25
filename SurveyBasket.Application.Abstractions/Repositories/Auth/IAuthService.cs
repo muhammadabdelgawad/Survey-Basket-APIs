@@ -1,5 +1,6 @@
 ﻿using SurveyBasket.Application.Abstractions.DTOs.Auth.Request;
 using SurveyBasket.Application.Abstractions.DTOs.Auth.Response;
+
 namespace SurveyBasket.Application.Abstractions.Repositories.Auth
 
 {
@@ -7,11 +8,13 @@ namespace SurveyBasket.Application.Abstractions.Repositories.Auth
     {
         Task<Result<AuthResponse>> GetTokenAsync(string email, string password,
             CancellationToken cancellationToken = default);
-       
+
         Task<Result<AuthResponse>> GetRefreshTokenAsync(string token, string refreshToken,
           CancellationToken cancellationToken = default);
-       
+
         Task<Abstractions.Result> RevokeRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken = default);
+
+        Task<Abstractions.Result> SendResetPasswordCodeAsync(string email);
         public Task<Abstractions.Result> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default);
 
         Task<Abstractions.Result> ConfirmEmailAsync(ConfirmEmailRequest request);
