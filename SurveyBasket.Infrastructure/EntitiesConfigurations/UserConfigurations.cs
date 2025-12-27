@@ -18,7 +18,7 @@ namespace SurveyBasket.Persistence.EntitiesConfigurations
             builder.Property(x => x.LastName).HasMaxLength(100);
 
 
-            var  passwordHasher = new PasswordHasher<ApplicationUser>();
+            //var  passwordHasher = new PasswordHasher<ApplicationUser>();  
 
             builder.HasData(new ApplicationUser
             {
@@ -32,7 +32,7 @@ namespace SurveyBasket.Persistence.EntitiesConfigurations
                 SecurityStamp = DefaultUsers.AdminSecurityStamp,
                 ConcurrencyStamp = DefaultUsers.AdminConcurrencyStamp,
                 EmailConfirmed = true,
-                PasswordHash = passwordHasher.HashPassword(null!, DefaultUsers.AdminPassword)
+                PasswordHash = DefaultUsers.AdminPasswordHash
 
             });
         }
