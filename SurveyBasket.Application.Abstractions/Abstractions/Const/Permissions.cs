@@ -4,26 +4,27 @@
     {
         public static string Type { get; } = "Permissions";
 
-        public static string ReadPolls = "polls:read";
-        public static string AddPolls = "polls:add";
-        public static string UpdatePolls = "polls:update";
-        public static string DeletePolls = "polls:remove";
+        public const string ReadPolls = "polls:read";
+        public const string AddPolls = "polls:add";
+        public const string UpdatePolls = "polls:update";
+        public const string DeletePolls = "polls:remove";
+               
+        public const string ReadQuestions = "questions:read";
+        public const string AddQuestions = "questions:add";
+        public const string UpdateQuestions = "questions:update";
+               
+        public const string ReadUser = "user:read";
+        public const string AddUser = "user:add";
+        public const string UpdateUser = "user:update";
+               
+        public const string ReadRoles = "roles:read";
+        public const string AddRoles = "roles:add";
+        public const string UpdateRoles = "roles:update";
+               
+        public const string Results = "results:read";
 
-        public static string ReadQuestions = "questions:read";
-        public static string AddQuestions = "questions:add";
-        public static string UpdateQuestions = "questions:update";
-
-        public static string ReadUser = "user:read";
-        public static string AddUser = "user:add";
-        public static string UpdateUser = "user:update";
-
-        public static string ReadRoles = "roles:read";
-        public static string AddRoles = "roles:add";
-        public static string UpdateRoles = "roles:update";
-
-        public static string Results = "results:read";
-
-
+        public static IList<string?> GetAllPermissions()=>
+            typeof(Permissions).GetFields().Select(field => field.GetValue(field) as string).ToList();
 
     }
 }
