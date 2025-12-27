@@ -6,3 +6,4 @@ global using SurveyBasket.Domain.Entities;
 global using SurveyBasket.Entities;
 global using System.Reflection;
 global using System.Security.Claims;
+global using SurveyBasket.Application.Abstractions.Abstractions.Const;
