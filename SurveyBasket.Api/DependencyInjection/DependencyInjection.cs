@@ -2,10 +2,6 @@
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using SurveyBasket.Application.Abstractions.Repositories.Notification;
-using SurveyBasket.Application.Abstractions.Repositories.Users;
-using SurveyBasket.Application.Abstractions.Settings;
-using SurveyBasket.Application.Validations.Auth;
 
 namespace SurveyBasket.DependencyInjection
 {
@@ -121,9 +117,12 @@ namespace SurveyBasket.DependencyInjection
 
         public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+            services.AddTransient<IAuthorizationPolicyProvider,PermissionAuthorizationPolicyProvider>();
 
             services.AddSingleton<IJwtProvider, JwtProvider>();
 
