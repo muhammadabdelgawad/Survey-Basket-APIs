@@ -1,8 +1,10 @@
-﻿namespace SurveyBasket.Api.Controllers
+﻿using SurveyBasket.Application.Abstractions.Abstractions.Const;
+
+namespace SurveyBasket.Api.Controllers
 {
     [Route("api/polls/{pollId}/votes")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = DefaultRoles.Member)]
     public class VotesController(IQuestionService questionService, IVoteService voteService) : ControllerBase
     {
         private readonly IQuestionService _questionService = questionService;

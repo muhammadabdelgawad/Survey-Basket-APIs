@@ -29,3 +29,4 @@ global using SurveyBasket.Application.Abstractions.Repositories.Users;
 global using SurveyBasket.Application.Abstractions.Settings;
 global using SurveyBasket.Application.Validations.Auth;
 global using SurveyBasket.Domain.Entities;
+global using SurveyBasket.Api.Authentication.Filters;
