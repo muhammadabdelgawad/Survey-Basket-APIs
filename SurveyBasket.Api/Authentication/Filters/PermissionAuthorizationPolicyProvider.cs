@@ -1,7 +1,7 @@
 ﻿namespace SurveyBasket.Api.Authentication.Filters
 {
     public class PermissionAuthorizationPolicyProvider(IOptions<AuthorizationOptions> options)
-    : DefaultAuthorizationPolicyProvider(options)
+       : DefaultAuthorizationPolicyProvider(options)
     {
         private readonly AuthorizationOptions _authorizationOptions = options.Value;
 
