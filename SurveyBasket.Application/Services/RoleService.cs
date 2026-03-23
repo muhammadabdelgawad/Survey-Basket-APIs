@@ -14,5 +14,17 @@ namespace SurveyBasket.Application.Services
                 .ProjectToType<RoleResponse>()
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<Result<RoleDetailResponse>> GetRoleByIdAsync(string id, CancellationToken cancellationToken= default) 
+        {
+            if(await _roleManager.FindByIdAsync(id) is not { } role) 
+               return Result.Failure<RoleDetailResponse>(RoleErrors.RoleNotFound);
+            
+            var permissions = await _roleManager.GetClaimsAsync(role);
+
+            var response = new RoleDetailResponse(role.Id, role.Name!, role.IsDeleted, permissions.Select(p => p.Value));
+
+            return Result.Success(response);
+        }
     }
 }

@@ -16,5 +16,14 @@ namespace SurveyBasket.Api.Controllers
             return Ok(roles);
         }
 
+        [HttpGet("{id}")]
+        [HasPermission(Permissions.ReadRoles)]
+        public async Task<IActionResult> Get([FromRoute] string id , CancellationToken cancellationToken)
+        {
+            var result = await _roleService.GetRoleByIdAsync(id,cancellationToken);
+            
+            return result.IsSuccess ? Ok(result.Value) : result.ToProblem();
+        }
+
     }
 }
