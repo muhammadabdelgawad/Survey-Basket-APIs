@@ -2,6 +2,7 @@
 using FluentValidation.AspNetCore;
 using Hangfire;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using SurveyBasket.Application.Abstractions.Repositories.Roles;
 
 namespace SurveyBasket.DependencyInjection
 {
@@ -35,6 +36,7 @@ namespace SurveyBasket.DependencyInjection
             services.AddScoped<IEmailSender, EmailService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             // services.AddScoped<ICacheService, CacheService>(); // Not Applied Now , Hybrid Cache is applied
             services.AddExceptionHandler<GlobalExceptionHandler>();
